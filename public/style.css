@@ -48,7 +48,7 @@ body {
 }
 
 .visible {
-    display: flex; /* ou block selon le type d'élément */
+    display: flex;
 }
 
 .close-button {
@@ -147,7 +147,7 @@ body {
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 200; /* Assurez-vous qu'il est au-dessus des autres éléments */
+    z-index: 200;
 }
 
 .abandon-button {

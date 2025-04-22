@@ -7,12 +7,17 @@ import { mainScene } from "../scenes/mainScene";
 export function setupAbandonButton(app: Application, player: Player, mob: Mob) {
     const abandonButton = document.getElementById("combat-abandon");
     if (abandonButton) {
-        abandonButton.classList.remove("hidden");
+        // Supprimer tous les gestionnaires d'événements existants
+        const newAbandonButton = abandonButton.cloneNode(true) as HTMLElement;
+        abandonButton.parentNode?.replaceChild(newAbandonButton, abandonButton);
 
         // Ajouter un gestionnaire d'événements pour le bouton "Abandonner"
-        abandonButton.addEventListener("click", () => {
+        newAbandonButton.addEventListener("click", () => {
             endCombat(app, player, mob);
         });
+
+        // Rendre le bouton visible
+        newAbandonButton.classList.remove("hidden");
     }
 }
 
