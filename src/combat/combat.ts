@@ -16,6 +16,9 @@ export async function startCombat(mobType: string) {
     // Initialiser le tour
     let isPlayerTurn = true;
 
+    // Boolean pour vérifier si le combat est terminé
+    let isCombatOver = false;
+
     // Gestion du bouton "Attaquer"
     const attackButton = document.getElementById("attack-button");
     if (attackButton) {
@@ -25,9 +28,10 @@ export async function startCombat(mobType: string) {
                 player.attackTarget(mob);
 
                 // Vérifier si le mob est mort
-                if (mob.currentHP <= 0) {
+                if (mob.currentHP <= 0 && !isCombatOver) {
+                    isCombatOver = true; // Marquer le combat comme terminé
                     console.log("Le mob est vaincu !");
-                    endCombat(app, player, mob);
+                    showQuestSuccessWindow(app, player, mob); // Afficher la fenêtre de réussite
                     return;
                 }
 
@@ -48,7 +52,8 @@ export async function startCombat(mobType: string) {
             mob.attackPlayer(player);
 
             // Vérifier si le joueur est mort
-            if (player.currentHP <= 0) {
+            if (player.currentHP <= 0 && !isCombatOver) {
+                isCombatOver = true; // Marquer le combat comme terminé
                 console.log("Vous avez été vaincu !");
                 endCombat(app, player, mob);
                 return;
@@ -57,6 +62,27 @@ export async function startCombat(mobType: string) {
             // Passer au tour du joueur
             isPlayerTurn = true;
             console.log("C'est à votre tour !");
+        }
+    }
+
+    function showQuestSuccessWindow(app: Application, player: Player, mob: Mob) {
+        const successWindow = document.getElementById("quest-success-window");
+        if (successWindow) {
+            successWindow.classList.add("visible");
+    
+            // Ajouter un gestionnaire pour fermer la fenêtre
+            const closeButton = document.getElementById("close-success-button");
+            if (closeButton) {
+                // Supprimer les gestionnaires existants
+                const newCloseButton = closeButton.cloneNode(true) as HTMLElement;
+                closeButton.parentNode?.replaceChild(newCloseButton, closeButton);
+    
+                // Ajouter un nouveau gestionnaire d'événements
+                newCloseButton.addEventListener("click", () => {
+                    successWindow.classList.remove("visible");
+                    endCombat(app, player, mob); // Appeler endCombat après avoir fermé la fenêtre
+                });
+            }
         }
     }
 
@@ -80,7 +106,7 @@ export async function startCombat(mobType: string) {
 
         // Revenir à la scène principale
         mainScene();
-        
+
         console.log("Combat terminé !");
     }
 }

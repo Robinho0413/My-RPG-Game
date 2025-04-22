@@ -165,3 +165,48 @@ body {
 .abandon-button:hover {
     background-color: #96641f;
 }
+
+#quest-success-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #754f19;
+    border: 4px solid #3a270c;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ddc098;
+    z-index: 200;
+    width: 400px;
+    text-align: center;
+    display: none; /* Masqué par défaut */
+}
+
+#quest-success-window.visible {
+    display: block; /* Afficher lorsque la classe "visible" est ajoutée */
+}
+
+#quest-success-window .success-content h2 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+#quest-success-window .success-content p {
+    margin: 0 0 20px;
+}
+
+#close-success-button {
+    background: none;
+    border: 2px solid #3a270c;
+    color: #ddc098;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+#close-success-button:hover {
+    background-color: #96641f;
+}
