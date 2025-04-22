@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css">
+    <title>PixiJS - My RPG Game</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Scène -->
+        <div id="pixi-container"></div>
+
+        <!-- Panneau des quêtes -->
+        <div id="quest-window" class="hidden">
+            <div class="quest-header">
+                <h2 class="quest-header-title">Quêtes</h2>
+                <button id="close-quest" class="close-button">✖ Fermer</button>
+            </div>
+            <div id="quest-list" class="quest-list-scrollable"></div>
+        </div>
+
+        <!-- Barre de nav -->
+        <nav id="bottom-nav">
+            <button id="tab-equipment">Équipements</button>
+            <button id="tab-skills">Compétences</button>
+            <button id="tab-forge">Forge</button>
+            <button id="tab-quests">Quêtes</button>
+        </nav>
+
+        <!-- Hud de combat -->
+        <div id="combat-hud" class="hidden">
+            <div class="combat-actions">
+                <button id="attack-button">Attaquer</button>
+                <button id="attack-button">Attaquer</button>
+            </div>
+        </div>
+
+        <!-- Bouton pour abandonner la quête -->
+        <div id="combat-abandon" class="hidden">
+            <button id="abandon-button" class="abandon-button">Abandonner</button>
+        </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

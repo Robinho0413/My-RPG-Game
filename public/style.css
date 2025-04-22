@@ -1,0 +1,167 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #000000;
+}
+
+#app {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #754f19;
+    z-index: 100;
+}
+
+#bottom-nav button {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: 4px solid #3a270c;
+    color: #ddc098;
+    font-size: 1.1rem;
+    border-top: 8px solid #3a270c;
+    border-bottom: 8px solid #3a270c;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-transform: uppercase;
+}
+
+#bottom-nav button:hover {
+    background-color: #96641f;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex; /* ou block selon le type d'élément */
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #ddc098;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.start-button {
+    background: none;
+    padding: 6px 10px;
+    border: 2px solid #3a270c;
+    color: #ddc098;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-transform: uppercase;
+    border-radius: 2px;
+}
+
+.start-button:hover {
+    background-color: #96641f;
+}
+
+#quest-window {
+    position: fixed; /* pour qu'elle soit toujours au centre même en scrollant */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centre parfaitement */
+    background: #754f19;
+    border: 8px solid #3a270c;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ddc098;
+    z-index: 100;
+    width: 600px; /* ou plus/moins selon ton design */
+    max-height: 70vh;
+    flex-direction: column;
+}
+
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.quest-list-scrollable {
+    overflow-y: auto;
+    padding-right: 10px; /* espace pour la scrollbar */
+    max-height: calc(70vh - 50px);
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+.quest-item {
+    border: 2px solid #ddc098;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.quest-header-title {
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#combat-hud {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #754f19;
+    z-index: 100;
+}
+
+#attack-button {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: 4px solid #3a270c;
+    color: #ddc098;
+    font-size: 1.1rem;
+    border-top: 8px solid #3a270c;
+    border-bottom: 8px solid #3a270c;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-transform: uppercase;
+}
+
+#combat-abandon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 200; /* Assurez-vous qu'il est au-dessus des autres éléments */
+}
+
+.abandon-button {
+    background: #754f19;
+    border: 2px solid #3a270c;
+    color: #ddc098;
+    font-size: 1rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+}
+
+.abandon-button:hover {
+    background-color: #96641f;
+}
