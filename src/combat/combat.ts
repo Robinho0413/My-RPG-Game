@@ -31,7 +31,10 @@ export async function startCombat(mobType: string) {
     // Gestion du bouton "Attaquer"
     const attackButton = document.getElementById("attack-button");
     if (attackButton) {
-        attackButton.addEventListener("click", () => {
+        const newAttackButton = attackButton.cloneNode(true) as HTMLElement;
+        attackButton.parentNode?.replaceChild(newAttackButton, attackButton);
+    
+        newAttackButton.addEventListener("click", () => {
             if (isPlayerTurn) {
                 // Le joueur attaque le mob
                 player.attackTarget(mob);
@@ -100,9 +103,16 @@ export async function startCombat(mobType: string) {
         // Nettoyer la scène de combat
         app.stage.removeChild(player.sprite);
         app.stage.removeChild(mob.sprite);
+        
 
         // Arrêter l'application PixiJS
         app.destroy(true, { children: true });
+
+        const pixiContainer = document.getElementById("pixi-container");
+        if (pixiContainer) {
+            pixiContainer.innerHTML = ""; // Vide complètement le container
+        }
+
 
         // Masquer le bouton "Abandonner"
         const abandonButton = document.getElementById("combat-abandon");
