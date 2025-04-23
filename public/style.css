@@ -124,23 +124,31 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 120px;
     background: #754f19;
     z-index: 100;
+    gap: 20px;
+}
+
+.combat-actions {
+    display: flex;
+    align-items: center;
 }
 
 #attack-button {
-    width: 100%;
-    height: 100%;
-    background: none;
+    padding: 15px 30px;
+    background: #754f19;
     border: 4px solid #3a270c;
     color: #ddc098;
     font-size: 1.1rem;
-    border-top: 8px solid #3a270c;
-    border-bottom: 8px solid #3a270c;
     cursor: pointer;
-    transition: color 0.2s;
     text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+#attack-button:hover {
+    background-color: #96641f;
 }
 
 #combat-abandon {
@@ -230,4 +238,33 @@ body {
 .gold-icon {
     width: 34px; /* Taille de l'image */
     height: 34px;
+}
+
+#combat-player-hud {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#health-bar-container {
+    width: 200px;
+    height: 20px;
+    background-color: #444;
+    border: 2px solid #222;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+#health-bar {
+    height: 100%;
+    background-color: #f00;
+    width: 100%; /* La largeur sera ajustée dynamiquement */
+    transition: width 0.3s ease;
+}
+
+#health-text {
+    font-weight: bold;
+    color: #fff;
 }

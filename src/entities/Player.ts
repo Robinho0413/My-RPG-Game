@@ -15,8 +15,8 @@ export class Player {
         this.sprite.anchor.set(0.5);
         this.sprite.scale.set(0.5);
 
-        this.maxHP = 200;
-        this.currentHP = 200;
+        this.maxHP = 100;
+        this.currentHP = 100;
         this.attack = 10;
         this.defense = 0;
         this.gold = 0;
@@ -26,14 +26,27 @@ export class Player {
     takeDamage(amount: number) {
         this.currentHP = Math.max(0, this.currentHP - amount);
         console.log(`Vous subissez ${amount} dégâts, il vous reste ${this.currentHP} HP`);
+        this.updateHealthBar(); // Mettre à jour la barre de vie
     }
 
     heal(amount: number) {
         this.currentHP = Math.min(this.maxHP, this.currentHP + amount);
+        this.updateHealthBar(); // Mettre à jour la barre de vie
     }
 
     getHPRatio(): number {
         return this.currentHP / this.maxHP;
+    }
+
+    updateHealthBar() {
+        const healthBar = document.getElementById("health-bar");
+        const healthText = document.getElementById("health-text");
+    
+        if (healthBar && healthText) {
+            const healthPercentage = (this.currentHP / this.maxHP) * 100;
+            healthBar.style.width = `${healthPercentage}%`;
+            healthText.textContent = `${this.currentHP} / ${this.maxHP}`;
+        }
     }
 
     attackTarget(target: Mob) {

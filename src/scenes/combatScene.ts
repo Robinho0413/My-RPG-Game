@@ -30,6 +30,7 @@ export async function combatScene(mobType: string): Promise<{ app: Application; 
     player.sprite.position.set(app.screen.width / 2 - 200, app.screen.height / 2);
     app.stage.addChild(player.sprite);
     player.currentHP = player.maxHP;
+    player.updateHealthBar();
 
     // Créer le mob
     const mob = new Mob(mobTexture, mobType);

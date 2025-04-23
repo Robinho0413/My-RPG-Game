@@ -19,6 +19,9 @@ export async function startCombat(mobType: string) {
     player.currentHP = player.maxHP;
     mob.currentHP = mob.maxHP;
 
+    // Mettre à jour la barre de vie du joueur
+    player.updateHealthBar();
+
     // Configurer le bouton "Abandonner"
     setupAbandonButton(app, player, mob);
 
@@ -33,7 +36,7 @@ export async function startCombat(mobType: string) {
     if (attackButton) {
         const newAttackButton = attackButton.cloneNode(true) as HTMLElement;
         attackButton.parentNode?.replaceChild(newAttackButton, attackButton);
-    
+
         newAttackButton.addEventListener("click", () => {
             if (isPlayerTurn) {
                 // Le joueur attaque le mob
@@ -103,7 +106,7 @@ export async function startCombat(mobType: string) {
         // Nettoyer la scène de combat
         app.stage.removeChild(player.sprite);
         app.stage.removeChild(mob.sprite);
-        
+
 
         // Arrêter l'application PixiJS
         app.destroy(true, { children: true });
