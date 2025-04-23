@@ -5,10 +5,19 @@ import { Player } from "../entities/Player";
 import { Mob } from "../entities/Mob";
 import { toggleHUD, toggleCombatHUD } from "../ui/HUD";
 import { mainScene } from "../scenes/mainScene";
+import { GameState } from "../state/gameState";
 
 export async function startCombat(mobType: string) {
+    // Récupérer l'instance globale de GameState
+    const gameState = GameState.getInstance();
+    const player = gameState.player; // Accéder au joueur global
+
     // Initialiser la scène de combat et récupérer app, player et mob
-    const { app, player, mob } = await combatScene(mobType);
+    const { app, mob } = await combatScene(mobType);
+
+    // Réinitialiser les HP du joueur et du mob
+    player.currentHP = player.maxHP;
+    mob.currentHP = mob.maxHP;
 
     // Configurer le bouton "Abandonner"
     setupAbandonButton(app, player, mob);
@@ -31,6 +40,7 @@ export async function startCombat(mobType: string) {
                 if (mob.currentHP <= 0 && !isCombatOver) {
                     isCombatOver = true; // Marquer le combat comme terminé
                     console.log("Le mob est vaincu !");
+                    player.addGold(10); // Ajouter 100 pièces d'or au joueur
                     showQuestSuccessWindow(app, player, mob); // Afficher la fenêtre de réussite
                     return;
                 }
@@ -69,14 +79,14 @@ export async function startCombat(mobType: string) {
         const successWindow = document.getElementById("quest-success-window");
         if (successWindow) {
             successWindow.classList.add("visible");
-    
+
             // Ajouter un gestionnaire pour fermer la fenêtre
             const closeButton = document.getElementById("close-success-button");
             if (closeButton) {
                 // Supprimer les gestionnaires existants
                 const newCloseButton = closeButton.cloneNode(true) as HTMLElement;
                 closeButton.parentNode?.replaceChild(newCloseButton, closeButton);
-    
+
                 // Ajouter un nouveau gestionnaire d'événements
                 newCloseButton.addEventListener("click", () => {
                     successWindow.classList.remove("visible");

@@ -29,12 +29,14 @@ export async function combatScene(mobType: string): Promise<{ app: Application; 
     const player = new Player(playerTexture);
     player.sprite.position.set(app.screen.width / 2 - 200, app.screen.height / 2);
     app.stage.addChild(player.sprite);
+    player.currentHP = player.maxHP;
 
     // Créer le mob
     const mob = new Mob(mobTexture, mobType);
     mob.sprite.position.set(app.screen.width / 2 + 200, app.screen.height / 2);
     mob.sprite.scale.set(0.2);
     app.stage.addChild(mob.sprite);
+    mob.currentHP = mob.maxHP;
 
     // Retourner les objets nécessaires
     return { app, player, mob };
