@@ -38,6 +38,7 @@ export async function combatScene(mobType: string): Promise<{ app: Application; 
     mob.sprite.scale.set(0.2);
     app.stage.addChild(mob.sprite);
     mob.currentHP = mob.maxHP;
+    mob.updateHealthBar();
 
     // Retourner les objets nécessaires
     return { app, player, mob };

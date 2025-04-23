@@ -42,9 +42,13 @@ export async function startCombat(mobType: string) {
                 // Le joueur attaque le mob
                 player.attackTarget(mob);
 
+                // Mettre à jour la barre de vie du mob
+                mob.updateHealthBar();
+
                 // Vérifier si le mob est mort
                 if (mob.currentHP <= 0 && !isCombatOver) {
                     isCombatOver = true; // Marquer le combat comme terminé
+                    mob.removeHealthBar(); // Supprimer la barre de vie
                     console.log("Le mob est vaincu !");
                     player.addGold(10); // Ajouter 100 pièces d'or au joueur
                     showQuestSuccessWindow(app, player, mob); // Afficher la fenêtre de réussite
@@ -70,6 +74,7 @@ export async function startCombat(mobType: string) {
             // Vérifier si le joueur est mort
             if (player.currentHP <= 0 && !isCombatOver) {
                 isCombatOver = true; // Marquer le combat comme terminé
+                mob.removeHealthBar(); // Supprimer la barre de vie
                 console.log("Vous avez été vaincu !");
                 endCombat(app, player, mob);
                 return;

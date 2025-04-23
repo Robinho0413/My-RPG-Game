@@ -13,6 +13,7 @@ export function setupAbandonButton(app: Application, player: Player, mob: Mob) {
 
         // Ajouter un gestionnaire d'événements pour le bouton "Abandonner"
         newAbandonButton.addEventListener("click", () => {
+            mob.removeHealthBar(); // Supprimer la barre de vie du mob
             endCombat(app, player, mob);
         });
 

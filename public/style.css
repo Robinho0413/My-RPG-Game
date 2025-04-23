@@ -268,3 +268,21 @@ body {
     font-weight: bold;
     color: #fff;
 }
+
+.mob-health-bar-container {
+    position: absolute;
+    width: 100px;
+    height: 10px;
+    background-color: #444;
+    border: 1px solid #222;
+    border-radius: 5px;
+    overflow: hidden;
+    pointer-events: none; /* Empêche les interactions avec la barre */
+}
+
+.mob-health-bar {
+    height: 100%;
+    background-color: #f00;
+    width: 100%; /* La largeur sera ajustée dynamiquement */
+    transition: width 0.3s ease; /* Animation fluide */
+}
