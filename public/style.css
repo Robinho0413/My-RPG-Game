@@ -200,9 +200,6 @@ body {
     text-transform: uppercase;
 }
 
-#quest-success-window .success-content p {
-    margin: 0 0 20px;
-}
 
 #close-success-button {
     background: none;
@@ -238,6 +235,16 @@ body {
 .gold-icon {
     width: 34px; /* Taille de l'image */
     height: 34px;
+}
+
+.quest-gold-reward {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.quest-gold-reward-text {
+    margin: 0;
 }
 
 #combat-player-hud {

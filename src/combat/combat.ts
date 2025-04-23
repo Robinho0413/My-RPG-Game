@@ -6,11 +6,20 @@ import { Mob } from "../entities/Mob";
 import { toggleHUD, toggleCombatHUD } from "../ui/HUD";
 import { mainScene } from "../scenes/mainScene";
 import { GameState } from "../state/gameState";
+import { quests } from "../quests/questsData";
+import { getRandomInt } from "../utils/utils";
 
 export async function startCombat(mobType: string) {
     // Récupérer l'instance globale de GameState
     const gameState = GameState.getInstance();
     const player = gameState.player; // Accéder au joueur global
+
+    // Trouver la quête correspondante
+    const quest = quests.find((q) => q.mobType === mobType);
+    if (!quest) {
+        console.error("Quête introuvable !");
+        return;
+    }
 
     // Initialiser la scène de combat et récupérer app, player et mob
     const { app, mob } = await combatScene(mobType);
@@ -50,8 +59,10 @@ export async function startCombat(mobType: string) {
                     isCombatOver = true; // Marquer le combat comme terminé
                     mob.removeHealthBar(); // Supprimer la barre de vie
                     console.log("Le mob est vaincu !");
-                    player.addGold(10); // Ajouter 100 pièces d'or au joueur
-                    showQuestSuccessWindow(app, player, mob); // Afficher la fenêtre de réussite
+                    // Générer une récompense aléatoire
+                    const goldEarned = getRandomInt(quest.goldReward[0], quest.goldReward[1]);
+                    player.addGold(goldEarned); // Ajouter les gold au joueur
+                    showQuestSuccessWindow(app, player, mob, goldEarned); // Afficher la fenêtre de réussite
                     return;
                 }
 
@@ -86,10 +97,23 @@ export async function startCombat(mobType: string) {
         }
     }
 
-    function showQuestSuccessWindow(app: Application, player: Player, mob: Mob) {
+    function showQuestSuccessWindow(app: Application, player: Player, mob: Mob, goldEarned: number) {
         const successWindow = document.getElementById("quest-success-window");
         if (successWindow) {
             successWindow.classList.add("visible");
+
+            // Ajouter le texte de la récompense
+            successWindow.innerHTML = `
+                <div class="success-content">
+                    <h2>Quête complétée !</h2>
+                    <p>Vous avez vaincu ${mob.name} !</p>
+                    <div class="quest-gold-reward">
+                        <img src="/assets/gold.png" alt="Gold" class="gold-icon">
+                        <p class="quest-gold-reward-text">${goldEarned}</p>
+                    </div>
+                    <button id="close-success-button">Rentrer</button>
+                </div>
+            `;
 
             // Ajouter un gestionnaire pour fermer la fenêtre
             const closeButton = document.getElementById("close-success-button");
