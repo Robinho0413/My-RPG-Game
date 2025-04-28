@@ -1,19 +1,21 @@
 import { Player } from "../entities/Player";
-import { Texture } from "pixi.js";
+import { Assets } from "pixi.js";
 
 export class GameState {
     private static instance: GameState;
-    public player: Player;
+    public player!: Player;
 
-    private constructor() {
-        // Initialiser le joueur avec une texture
-        const playerTexture = Texture.from("/assets/player.png");
-        this.player = new Player(playerTexture);
-    }
+    private constructor() {}
 
-    public static getInstance(): GameState {
+    public static async getInstance(): Promise<GameState> {
         if (!GameState.instance) {
             GameState.instance = new GameState();
+
+            // Charger la texture du joueur
+            const playerTexture = await Assets.load("/assets/player.png");
+
+            // Initialiser le joueur avec la texture chargée
+            GameState.instance.player = new Player(playerTexture);
         }
         return GameState.instance;
     }

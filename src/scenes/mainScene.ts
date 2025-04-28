@@ -1,6 +1,6 @@
-import { Application, Assets } from "pixi.js";
-import { Player } from "../entities/Player";
+import { Application } from "pixi.js";
 import { toggleHUD, toggleCombatHUD } from "../ui/HUD";
+import { GameState } from "../state/gameState";
 
 export async function mainScene() {
     toggleHUD(true); // Afficher le HUD principal
@@ -16,10 +16,14 @@ export async function mainScene() {
     document.getElementById("pixi-container")!.appendChild(app.canvas);
 
     // Charger la texture du joueur
-    const texture = await Assets.load("/assets/player.png");
+    //const texture = await Assets.load("/assets/player.png");
 
-    // Créer un joueur
-    const player = new Player(texture);
+    // Récupérer l'instance globale du joueur
+    const gameState = await GameState.getInstance();
+    const player = gameState.player;
     player.sprite.position.set(app.screen.width / 2, app.screen.height / 2);
     app.stage.addChild(player.sprite);
+    // Initialiser l'affichage du niveau et de la progression
+    player.updateLevelDisplay();
+    player.updateLevelProgress(player.currentXP, player.xpToNextLevel);
 }

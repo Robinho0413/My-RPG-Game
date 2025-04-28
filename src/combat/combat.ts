@@ -11,8 +11,8 @@ import { getRandomInt } from "../utils/utils";
 
 export async function startCombat(mobType: string) {
     // Récupérer l'instance globale de GameState
-    const gameState = GameState.getInstance();
-    const player = gameState.player; // Accéder au joueur global
+    const gameState = await GameState.getInstance();
+    const player = gameState.player;
 
     // Trouver la quête correspondante
     const quest = quests.find((q) => q.mobType === mobType);
@@ -59,10 +59,14 @@ export async function startCombat(mobType: string) {
                     isCombatOver = true; // Marquer le combat comme terminé
                     mob.removeHealthBar(); // Supprimer la barre de vie
                     console.log("Le mob est vaincu !");
-                    // Générer une récompense aléatoire
+                    // Générer une récompense aléatoire en gold
                     const goldEarned = getRandomInt(quest.goldReward[0], quest.goldReward[1]);
                     player.addGold(goldEarned); // Ajouter les gold au joueur
-                    showQuestSuccessWindow(app, player, mob, goldEarned); // Afficher la fenêtre de réussite
+                    // Générer une récompense aléatoire en XP
+                    const xpEarned = getRandomInt(quest.xpReward[0], quest.xpReward[1]);
+                    player.gainXP(xpEarned);
+                    console.log(`Vous avez gagné ${goldEarned} pièces d'or et ${xpEarned} XP !`);
+                    showQuestSuccessWindow(app, player, mob, goldEarned, xpEarned); // Afficher la fenêtre de réussite
                     return;
                 }
 
@@ -97,7 +101,7 @@ export async function startCombat(mobType: string) {
         }
     }
 
-    function showQuestSuccessWindow(app: Application, player: Player, mob: Mob, goldEarned: number) {
+    function showQuestSuccessWindow(app: Application, player: Player, mob: Mob, goldEarned: number, xpEarned: number) {
         const successWindow = document.getElementById("quest-success-window");
         if (successWindow) {
             successWindow.classList.add("visible");
@@ -107,9 +111,14 @@ export async function startCombat(mobType: string) {
                 <div class="success-content">
                     <h2>Quête complétée !</h2>
                     <p>Vous avez vaincu ${mob.name} !</p>
-                    <div class="quest-gold-reward">
-                        <img src="/assets/gold.png" alt="Gold" class="gold-icon">
-                        <p class="quest-gold-reward-text">${goldEarned}</p>
+                    <div class="quest-rewards">
+                        <div class="quest-gold-reward">
+                            <img src="/assets/gold.png" alt="Gold" class="gold-icon">
+                            <p class="quest-gold-reward-text">${goldEarned} pièces d'or</p>
+                        </div>
+                        <div class="quest-xp-reward">
+                            <p class="quest-xp-reward-text">${xpEarned} XP</p>
+                        </div>
                     </div>
                     <button id="close-success-button">Rentrer</button>
                 </div>

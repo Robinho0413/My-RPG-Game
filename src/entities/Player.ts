@@ -9,6 +9,8 @@ export class Player {
     defense: number;
     gold: number;
     level: number;
+    currentXP: number;
+    xpToNextLevel: number;
 
     constructor(texture: Texture) {
         this.sprite = new Sprite(texture);
@@ -21,6 +23,8 @@ export class Player {
         this.defense = 0;
         this.gold = 0;
         this.level = 1;
+        this.currentXP = 0;
+        this.xpToNextLevel = 100;
     }
 
     takeDamage(amount: number) {
@@ -47,6 +51,46 @@ export class Player {
             healthBar.style.width = `${healthPercentage}%`;
             healthText.textContent = `${this.currentHP} / ${this.maxHP}`;
         }
+    }
+
+    updateLevelDisplay() {
+        const levelText = document.getElementById("level-text");
+        if (levelText) {
+            levelText.textContent = `Niveau : ${this.level}`;
+        }
+    }
+
+    updateLevelProgress(currentXP: number, xpToNextLevel: number) {
+        const levelBar = document.getElementById("level-bar");
+        const levelProgressText = document.getElementById("level-progress-text");
+    
+        if (levelBar && levelProgressText) {
+            const progressPercentage = (currentXP / xpToNextLevel) * 100;
+            levelBar.style.width = `${progressPercentage}%`;
+            levelProgressText.textContent = `${currentXP} / ${xpToNextLevel}`;
+        }
+    }
+
+    gainXP(amount: number) {
+        this.currentXP += amount;
+    
+        // Vérifier si le joueur monte de niveau
+        if (this.currentXP >= this.xpToNextLevel) {
+            this.levelUp();
+        }
+    
+        // Mettre à jour la barre de progression
+        this.updateLevelProgress(this.currentXP, this.xpToNextLevel);
+    }
+    
+    levelUp() {
+        this.level += 1;
+        this.currentXP = this.currentXP - this.xpToNextLevel; // Conserver l'excès d'XP
+        this.xpToNextLevel = Math.floor(this.xpToNextLevel * 1.5); // Augmenter l'XP nécessaire pour le prochain niveau
+    
+        console.log(`Félicitations ! Vous êtes maintenant niveau ${this.level}`);
+        this.updateLevelDisplay(); // Mettre à jour l'affichage du niveau
+        this.updateLevelProgress(this.currentXP, this.xpToNextLevel); // Mettre à jour la barre de progression
     }
 
     attackTarget(target: Mob) {
